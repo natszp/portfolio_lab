@@ -855,6 +855,12 @@ header.header--main-page {
   background-size: 70vw;
   height: 100vh;
 }
+header.header--main-page2 {
+  background-position: bottom left -30vh;
+  background-repeat: no-repeat;
+  background-size: 70vw;
+  height: 10vh;
+}
 
 @media (min-width: 990px) and (max-width: 1230px) {
   /* line 2, scss/modules/_header.scss */
@@ -873,6 +879,12 @@ header.header--form-page {
   height: 100vh;
 }
 
+header.header--form-page2 {
+  background-position: top left -500px;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  height: 0vh;
+}
 /* line 23, scss/modules/_header.scss */
 header .slogan {
   height: calc(100% - 141px);

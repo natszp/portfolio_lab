@@ -2,8 +2,13 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "{}".format(self.name)
 
 TYPES_OF_INSTITUTION = (
     ('fundacja', 'fundacja'),
@@ -12,10 +17,14 @@ TYPES_OF_INSTITUTION = (
 )
 
 class Institution(models.Model):
+
     name = models.CharField(max_length=250)
     description = models.TextField()
     type = models.CharField(choices=TYPES_OF_INSTITUTION, default='fundacja', max_length=100)
     categories = models.ManyToManyField(Category)
+
+    def __str__(self):
+        return "{}".format(self.name)
 
 
 class Donation(models.Model):
@@ -29,3 +38,4 @@ class Donation(models.Model):
     pick_up_time = models.TimeField(auto_now=True)
     pick_up_comment = models.TextField()
     user = models.ForeignKey(User, null=True, default=None, on_delete=models.CASCADE)
+
