@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
@@ -7,8 +6,9 @@
      <title>{% block title %}Base{% endblock title %}</title>
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/app.js'%}"></script>
+       <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
   </head>
 <body>
 
@@ -19,7 +19,7 @@
         <li class="logged-user">
             Witaj {{user.first_name}}
             <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
+              <li><a href="/profil">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
 
                 {% if user.is_superuser %}
@@ -99,6 +99,6 @@
         </div>
       </div>
     </footer>
-<script src="js/app.js"></script>
+
 </body>
 </html>

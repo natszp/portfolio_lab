@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+
   /**
    * HomePage - Help section
    */
+
+
   class Help {
     constructor($el) {
       this.$el = $el;
@@ -218,9 +221,13 @@ document.addEventListener("DOMContentLoaded", function() {
      * Update form front-end
      * Show next or previous section etc.
      */
+
+
     updateForm() {
       this.$step.innerText = this.currentStep;
-
+      if (this.currentStep == 3) {
+        get_institution_for_category()
+      }
       // TODO: Validation
 
       this.slides.forEach(slide => {
@@ -252,4 +259,27 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+function get_institution_for_category() {
+    let categories = $('input[type=checkbox][value=category_id]').val();
+    // let categories = $("input[name='categories']:checked").val() --- >albo tak
+    $.ajax({
+        type: "GET",
+        url: '/get_institutions/',
+        success: function (data) {
+            var div = $("#institutions");
+            div.html(data);
+        },
+        error: function (data) {
+            alert('sth went wrong inside Ajax');
+        }
+    });
+}
+
 });
+
+ //
+ //
+ // updateForm() {
+ //      this.$step.innerText = this.currentStep;
+ //        if (this.currentStep == 3) { alert("pobieram instytucje"); alert("uzupełniam dane na stronie"); }

@@ -18,3 +18,17 @@ class LoginForm(forms.Form):
     email = forms.CharField(label='email', widget=forms.TextInput(attrs={'class': 'form-group'}))
     password = forms.CharField(label='password', max_length=120,
                                widget=forms.PasswordInput(attrs={'class': 'form-group'}))
+
+class DonationForm(forms.Form):
+    categories = forms.MultipleChoiceField(choices=Category)
+    quantity = forms.IntegerField()
+    institution = forms.CheckboxInput()
+    address = forms.Textarea()
+    zip_code = forms.CharField()
+    phone_number = forms.IntegerField()
+    pick_up_date = forms.DateField()
+    pick_up_time = forms.TimeField()
+    pick_up_comment = forms.Textarea()
+
+
+

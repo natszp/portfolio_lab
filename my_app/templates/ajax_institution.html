@@ -4,38 +4,17 @@
 {% block title %}add donation{% endblock title %}
 
 {%block header%}
-<header class="header--form-page2"> {%endblock%}
+<header class="header--form-page">
+  {%endblock%}
 
-      <nav class="container container--70">
-        <ul class="nav--actions">
-          {%block li%}<li class="logged-user">
-            Witaj Agata
-            <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
-              <li><a href="#">Ustawienia</a></li>
-              <li><a href="#">Wyloguj</a></li>
-            </ul>
-          </li>{%endblock%}
-        </ul>
 
-        <ul>
-          <li><a href="index.html" class="btn btn--without-border active">Start</a></li>
-          <li><a href="index.html#steps" class="btn btn--without-border">O co chodzi?</a></li>
-          <li><a href="index.html#about-us" class="btn btn--without-border">O nas</a></li>
-          <li><a href="index.html#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
-          <li><a href="form.html" class="btn btn--without-border">Przekaż dary</a></li>
-          <li><a href="index.html#contact" class="btn btn--without-border">Kontakt</a></li>
-        </ul>
-      </nav>
-      {%block content%}
-  <header class="header--form-page">
-      <div class="slogan container container--90">
+{%block header_extra_content%}
+  <div class="slogan container container--90">
         <div class="slogan--item">
           <h1>
             Oddaj rzeczy, których już nie chcesz<br />
             <span class="uppercase">potrzebującym</span>
           </h1>
-
           <div class="slogan--steps">
             <div class="slogan--steps-title">Wystarczą 4 proste kroki:</div>
             <ul class="slogan--steps-boxes">
@@ -55,8 +34,8 @@
           </div>
         </div>
       </div>
-    </header>
-
+    {%endblock%}
+{%block content%}
     <section class="form--steps">
       <div class="form--steps-instructions">
         <div class="form--steps-container">
@@ -84,56 +63,22 @@
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
+            {%for category in categories%}
 
             <div class="form-group form-group--checkbox">
               <label>
                 <input
                   type="checkbox"
                   name="categories"
-                  value="clothes-to-use"
+                  category_id="{{category.id}}"
                 />
                 <span class="checkbox"></span>
                 <span class="description"
-                  >ubrania, które nadają się do ponownego użycia</span
+                  >{{category.name}}</span
                 >
               </label>
             </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  name="categories"
-                  value="clothes-useless"
-                />
-                <span class="checkbox"></span>
-                <span class="description">ubrania, do wyrzucenia</span>
-              </label>
-            </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="toys" />
-                <span class="checkbox"></span>
-                <span class="description">zabawki</span>
-              </label>
-            </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="books" />
-                <span class="checkbox"></span>
-                <span class="description">książki</span>
-              </label>
-            </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="other" />
-                <span class="checkbox"></span>
-                <span class="description">inne</span>
-              </label>
-            </div>
+          {%endfor%}
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn next-step">Dalej</button>
@@ -159,37 +104,24 @@
 
 
 
-          <!-- STEP 4 -->
+          <!-- STEP 3 -->
           <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
-            <div class="form-group form-group--checkbox">
+            {%for institution in institutions%}
+            <div class="form-group form-group--checkbox" id="institutions">
               <label>
-                <input type="radio" name="organization" value="old" />
+                <input type="radio" name="organization" value="{{institution.id}}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
-                  <div class="title">Fundacja “Bez domu”</div>
+                  <div class="title">{{institution.name}}</div>
                   <div class="subtitle">
-                    Cel i misja: Pomoc dla osób nie posiadających miejsca
-                    zamieszkania
+                    {{institution.description}}
                   </div>
                 </span>
               </label>
             </div>
-
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="radio" name="organization" value="old" />
-                <span class="checkbox radio"></span>
-                <span class="description">
-                  <div class="title">Fundacja “Dla dzieci"</div>
-                  <div class="subtitle">
-                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
-                    życiowej.
-                  </div>
-                </span>
-              </label>
-            </div>
+          {%endfor%}
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
@@ -197,7 +129,7 @@
             </div>
           </div>
 
-          <!-- STEP 5 -->
+          <!-- STEP 4 -->
           <div data-step="4">
             <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
@@ -205,7 +137,7 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" /> </label>
+                  <label> Ulica {{donation.address}}<input type="text" name="address" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
@@ -249,10 +181,10 @@
             </div>
           </div>
 
-          <!-- STEP 6 -->
+          <!-- STEP 5 -->
           <div data-step="5">
             <h3>Podsumowanie Twojej darowizny</h3>
-
+              {%for donation in donations%}
             <div class="summary">
               <div class="form-section">
                 <h4>Oddajesz:</h4>
@@ -260,14 +192,14 @@
                   <li>
                     <span class="icon icon-bag"></span>
                     <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
+                      >{{donation.quantity}} razy {{donation.categories.all}}</span
                     >
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
                     <span class="summary--text"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
+                      >{{donation.institution }}</span
                     >
                   </li>
                 </ul>
@@ -294,7 +226,7 @@
                 </div>
               </div>
             </div>
-
+            {%endfor%}
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
               <button type="submit" class="btn">Potwierdzam</button>
