@@ -34,16 +34,6 @@ class LandingPageView(View):
                       #                                  'pages': pages})
 
 
-def get_institutions(request):
-    category_id = request.GET.get('category_id')
-    if category_id:
-        institutions = Institution.objects.filter(types=category_id)
-    else:
-        institutions = Institution.objects.all()
-
-    return render(request, 'ajax_institution.html', context={'institutions':institutions})
-
-
 class RegisterUserView(View):
     def get(self, request):
         return render(request, 'register.html')
