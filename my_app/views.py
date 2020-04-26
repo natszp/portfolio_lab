@@ -80,7 +80,8 @@ class AddDonationView(LoginRequiredMixin, View):
     def get(self, request):
         categories = Category.objects.all()
         donations = Donation.objects.all()
-        return render(request, 'form.html', context={ 'categories':categories, 'donations':donations})
+        institutions = Institution.objects.all()
+        return render(request, 'form.html', context={'categories':categories, 'donations':donations, 'institutions':institutions})
 
     def post(self, request):
         form= DonationForm(request.POST)
@@ -89,36 +90,33 @@ class AddDonationView(LoginRequiredMixin, View):
             quantity = form.cleaned_data['bags']
             institution = form.cleaned_data['organization']
             address = form.cleaned_data['address']
+            city = form.cleaned_data['city']
             phone_number = form.cleaned_data['phone']
             zip_code = form.cleaned_data['postcode']
-            pick_up_date = form.cleaned_data['data']
+            dupa = form.cleaned_data['data']
             pick_up_time = form.cleaned_data['time']
             pick_up_comment = form.cleaned_data['more_info']
-            Donation.objects.create(categories=categories, quantity=quantity, institution=institution,
-                                    address=address, phone_number=phone_number, zip_code=zip_code,
-                                    pick_up_date=pick_up_date, pick_up_time=pick_up_time, pick_up_comment=pick_up_comment)
+            new_donation = Donation.objects.create( quantity=quantity, institution=institution,
+                                    address=address, city=city, phone_number=phone_number, zip_code=zip_code,
+                                    pick_up_date=dupa, pick_up_time=pick_up_time, pick_up_comment=pick_up_comment)
+            new_donation.categories.set(categories)
+            new_donation.user = request.user
+            new_donation.save()
 
             return render(request, 'form-confirmation.html', context={'form':form})
         return HttpResponse('sth went terribly wrong')
 
-def get_institution(request):
-    category_id = request.GET.get('category_id')
-    if category_id:
-        institutions = Institution.objects.filter(categories=Category.objects.get(pk=category_id))
-    else:
-        institutions = Institution.objects.all()
 
-    return render(request, 'ajax_institution.html', context={'institutions':institutions})
-
-def create_json(institution):
-    inst_lst = []
-    for item in institution:
-        inst_lst.append({'id': item.id, 'name': item.name, 'category': item.type.id})
-    return json.dumps({'institution': inst_lst})
 
 
 class UserPersonalView(View):
     def get(self, request):
         donations = Donation.objects.all()
-        return render(request, 'profil.html', context={'donations':donations})
+        is_taken = request.POST.get('is_taken')
+        if is_taken == 'on':
+            is_active = True
+        else:
+            is_active = False
+        updated_donation = Donation.objects.update(is_taken=is_taken)
+        return render(request, 'profil.html', context={'donations':donations, 'is_taken':is_taken})
 

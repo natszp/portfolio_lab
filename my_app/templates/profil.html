@@ -18,6 +18,13 @@
                     <li>kategorie przekazanych darow: {%for category in donation.categories.all%}
                                                     {{category.name}}{%endfor%}</li>
                     <li>data odebrania: {{donation.pick_up_date}}</li>
+                    <li> czy odbrane:</li>
+                    <form method="post">
+                    {% csrf_token %}
+                    <input type=checkbox checked name="is_taken">
+                    <input type="submit" value="odebrany">
+                </form>
+                    <li>{{ donation.is_taken }}</li>
                 </ul>{%endfor%}
         </div>
   </div>

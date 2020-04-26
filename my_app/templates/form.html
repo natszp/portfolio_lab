@@ -59,7 +59,8 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form  method="post">
+          {%csrf_token%}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -70,7 +71,8 @@
                 <input
                   type="checkbox"
                   name="categories"
-                  category_id="{{category.id}}"
+                  value="{{category.id}}"
+                    data-name ={{ category.name }}
                 />
                 <span class="checkbox"></span>
                 <span class="description"
@@ -111,7 +113,7 @@
             {%for institution in institutions%}
             <div class="form-group form-group--checkbox" id="institutions">
               <label>
-                <input type="radio" name="organization" value="{{institution.id}}" />
+                <input type="radio" name="organization" value="{{institution.id}}" data-name="{{ institution.name }}"/>
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{institution.name}}</div>
@@ -137,7 +139,7 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica {{donation.address}}<input type="text" name="address" /> </label>
+                  <label> Ulica <input type="text" name="address" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
@@ -184,22 +186,22 @@
           <!-- STEP 5 -->
           <div data-step="5">
             <h3>Podsumowanie Twojej darowizny</h3>
-              {%for donation in donations%}
             <div class="summary">
               <div class="form-section">
                 <h4>Oddajesz:</h4>
                 <ul>
                   <li>
                     <span class="icon icon-bag"></span>
-                    <span class="summary--text"
-                      >{{donation.quantity}} razy {{donation.categories.all}}</span
-                    >
+                    <span class="summary--text summary--how_many"
+                      > </span
+                    ><span class="summary--text summary--categories"
+                    ></span>
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text"
-                      >{{donation.institution }}</span
+                    <span class="summary--text summary--organization"
+                    ></span
                     >
                   </li>
                 </ul>
@@ -209,24 +211,24 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                    <li><span class = "summary--address"></span></li>
+                    <li><span class = "summary--city"></span></li>
+                      <li><span class="summary--zip_code"></span></li>
+                      <li><span class="summary--phone_number"></span></li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
-                  <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
+                    <ul>
+                  <li><span class="summary--pick_up_date"></span></li>
+                    <li><span class="summary--pick_up_time"></span></li>
+                    <li><span class="summary--pick_up_comment"></span></li>
                   </ul>
                 </div>
               </div>
             </div>
-            {%endfor%}
+
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
               <button type="submit" class="btn">Potwierdzam</button>

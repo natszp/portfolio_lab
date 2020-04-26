@@ -222,12 +222,9 @@ document.addEventListener("DOMContentLoaded", function() {
      * Show next or previous section etc.
      */
 
-
-    updateForm() {
+         updateForm() {
       this.$step.innerText = this.currentStep;
-      if (this.currentStep == 3) {
-        get_institution_for_category()
-      }
+
       // TODO: Validation
 
       this.slides.forEach(slide => {
@@ -241,8 +238,35 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 6;
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
+
       // TODO: get data from inputs and show them in summary
-    }
+
+      if (this.currentStep === 3) {
+       alert ("ide dalej, gdyz nie umiem tego zrobic")
+      }
+      if (this.currentStep === 5) {
+        let categories = $("input[name='categories']:checked").data('name')
+        $('.summary--categories').text(", dary: " + categories);
+        let bags = $("input[name='bags']").val();
+        $('.summary--how_many').text("liczba worków: " + bags);
+        let organization = $("input[name='organization']:checked").data('name')
+        $('.summary--organization').text("nazwa organizacji: " + organization);
+        let address = $("input[name='address']").val();
+        $('.summary--address').text(address);
+        let city = $("input[name='city']").val();
+        $('.summary--city').text(city);
+        let zip_code = $("input[name='postcode']").val();
+        $('.summary--zip_code').text(zip_code);
+        let phone_number = $("input[name='phone']").val();
+        $('.summary--phone_number').text(phone_number);
+        let pick_up_date = $("input[name='data']").val();
+        $('.summary--pick_up_date').text(pick_up_date);
+        let pick_up_time = $("input[name='time']").val();
+        $('.summary--pick_up_time').text(pick_up_time);
+        let pick_up_comment = $("textarea[name='more_info']").val();
+        $('.summary--pick_up_comment').text(pick_up_comment);
+  }
+}
 
     /**
      * Submit form
@@ -250,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function() {
      * TODO: validation, send data to server
      */
     submit(e) {
-      e.preventDefault();
+      // e.preventDefault();
       this.currentStep++;
       this.updateForm();
     }
@@ -260,26 +284,6 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 
-function get_institution_for_category() {
-    let categories = $('input[type=checkbox][value=category_id]').val();
-    // let categories = $("input[name='categories']:checked").val() --- >albo tak
-    $.ajax({
-        type: "GET",
-        url: '/get_institutions/',
-        success: function (data) {
-            var div = $("#institutions");
-            div.html(data);
-        },
-        error: function (data) {
-            alert('sth went wrong inside Ajax');
-        }
-    });
-}
+
 
 });
-
- //
- //
- // updateForm() {
- //      this.$step.innerText = this.currentStep;
- //        if (this.currentStep == 3) { alert("pobieram instytucje"); alert("uzupełniam dane na stronie"); }

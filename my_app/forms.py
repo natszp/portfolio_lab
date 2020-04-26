@@ -20,15 +20,16 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'class': 'form-group'}))
 
 class DonationForm(forms.Form):
-    categories = forms.MultipleChoiceField(choices=Category)
-    quantity = forms.IntegerField()
-    institution = forms.CheckboxInput()
-    address = forms.Textarea()
-    zip_code = forms.CharField()
-    phone_number = forms.IntegerField()
-    pick_up_date = forms.DateField()
-    pick_up_time = forms.TimeField()
-    pick_up_comment = forms.Textarea()
+    categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all())
+    bags = forms.IntegerField()
+    organization = forms.ModelChoiceField(queryset=Institution.objects.all())
+    address = forms.CharField()
+    city = forms.CharField()
+    postcode = forms.CharField()
+    phone = forms.IntegerField()
+    data = forms.DateField()
+    time = forms.TimeField()
+    more_info = forms.CharField()
 
 
 
