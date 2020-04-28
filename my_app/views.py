@@ -107,16 +107,16 @@ class AddDonationView(LoginRequiredMixin, View):
         return HttpResponse('sth went terribly wrong')
 
 
-
-
 class UserPersonalView(View):
+
     def get(self, request):
-        donations = Donation.objects.all()
-        is_taken = request.POST.get('is_taken')
-        if is_taken == 'on':
-            is_active = True
-        else:
-            is_active = False
-        updated_donation = Donation.objects.update(is_taken=is_taken)
-        return render(request, 'profil.html', context={'donations':donations, 'is_taken':is_taken})
+        donations = Donation.objects.filter(user=request.user).order_by('pick_up_date')
+        return render(request, 'profil.html', context={'donations': donations})
+
+    def post(self, request):
+        id = request.POST.get('donation')
+        donation = Donation.objects.get(pk=id)
+        donation.is_taken = True
+        donation.save()
+        return redirect('/profil/')
 
