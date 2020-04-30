@@ -110,7 +110,7 @@
           <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
-            <div id="selected_institutions">{%for institution in institutions%}
+            {%for institution in institutions%}
             <div class="form-group form-group--checkbox {% for category in institution.categories.all %}category-{{ category.id }} {% endfor %}">
               <label>
                 <input type="radio" name="organization" value="{{institution.id}}" data-name="{{ institution.name }}"/>
@@ -123,7 +123,7 @@
                 </span>
               </label>
             </div>
-            {%endfor%}</div>
+          {%endfor%}
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>

@@ -76,12 +76,17 @@ class LogoutView(View):
         logout(request)
         return redirect('landing_page')
 
+class TestView(View):
+    def get(self, request):
+        fruits = request.GET.getlist('fruits')
+        print(fruits)
+        return render(request, 'testowo.html')
+
 class AddDonationView(LoginRequiredMixin, View):
     def get(self, request):
-        categories = Category.objects.all()
-        donations = Donation.objects.all()
+        all_categories = Category.objects.all()
         institutions = Institution.objects.all()
-        return render(request, 'form.html', context={'categories':categories, 'donations':donations, 'institutions':institutions})
+        return render(request, 'form.html', context={'all_categories':all_categories, 'institutions':institutions})
 
     def post(self, request):
         form= DonationForm(request.POST)
@@ -104,7 +109,21 @@ class AddDonationView(LoginRequiredMixin, View):
             new_donation.save()
 
             return render(request, 'form-confirmation.html', context={'form':form})
+
         return HttpResponse('sth went terribly wrong')
+
+def get_institutions(request):
+
+    list_of_id = request.GET.getlist('categories')
+    print(list_of_id)
+    print('test')
+
+    if list_of_id :
+        id_cat = Category.objects.filter(id__in=list_of_id)
+        selected_institutions = Institution.objects.filter(categories__id__in=id_cat)
+    else:
+        selected_institutions = Institution.objects.all()
+    return render(request, 'institution_list.html', context={'institutions': selected_institutions})
 
 
 class UserPersonalView(View):

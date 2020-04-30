@@ -1,0 +1,54 @@
+
+{#zrób formularz w którym bedziesz miała 3 pola o tej samej nazwe input type='checkbox' i spróbuj je odebrać w django#}
+{#8:08#}
+{#zobacz jak sie je odbiera#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="get">
+  {% csrf_token %}
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="Apple" id="apple" name="fruits">
+    <label class="form-check-label" for="apple">Apple</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="Mango" id="mango" name="fruits">
+    <label class="form-check-label" for="mango">Mango</label>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+{# <form  method="post">#}
+{#          {%csrf_token%}#}
+{##}
+{#            <h3>Zaznacz co chcesz oddać:</h3>#}
+{#            {%for category in all_categories%}#}
+{##}
+{#              <label>#}
+{#                <input#}
+{#                  type="checkbox"#}
+{#                  name="categories"#}
+{#                  value="{{category.id}}"#}
+{#                    data-name ={{ category.name }}#}
+{#                />#}
+{#                <span class="checkbox"></span>#}
+{#                <span class="description"#}
+{#                  >{{category.name}}</span#}
+{#                >#}
+{#              </label>#}
+{#            {% endfor %}#}
+{#{% for institution in institutions %}#}
+{#    <li> {{ institution.name }}</li>#}
+{#    <li>{{ institution.categories.all }}</li>#}
+{##}
+{#{% endfor %}#}
+
+
+</body>
+</html>
+

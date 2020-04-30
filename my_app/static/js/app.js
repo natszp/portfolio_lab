@@ -1,8 +1,40 @@
+
+
+function get_institution_for_category() {
+    var adres = '/get_institutions?'
+    var first = true;
+    $('input[type=checkbox]:checked').each(function(){
+      if (first) {
+        adres = adres.concat('categories=').concat($(this).val())
+        first = false;
+      }else{
+        adres = adres.concat('&categories=').concat($(this).val())
+      }
+
+    });
+
+    $.ajax({
+        type: "GET",
+        url: adres,
+        success: function (data) {
+            var skowronek = $("#selected_institutions");
+            skowronek.html(data);
+        },
+        error: function (data) {
+            alert('sth went wrong inside Ajax');
+        },
+      traditional: true
+    });
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
 
   /**
    * HomePage - Help section
    */
+
 
 
   class Help {
@@ -242,7 +274,8 @@ document.addEventListener("DOMContentLoaded", function() {
       // TODO: get data from inputs and show them in summary
 
       if (this.currentStep === 3) {
-       alert ("ide dalej, gdyz nie umiem tego zrobic")
+       get_institution_for_category();
+
       }
       if (this.currentStep === 5) {
         let categories = $("input[name='categories']:checked").data('name')
